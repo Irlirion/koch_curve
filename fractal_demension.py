@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 
 def get_threshold(Z: np.ndarray):
-    return int(Z.mean())
+    return Z.mean()
 
 def rgb2gray(rgb):
     r, g, b = rgb[:,:,0], rgb[:,:,1], rgb[:,:,2]
@@ -24,20 +24,18 @@ def fractal_dimension(Z: np.ndarray):
 
     # Transform Z into a binary array
     Z = (Z < get_threshold(Z))
-    plt.subplot(122)
-    plt.imshow(Z, cmap="gray")
 
-    # # Minimal dimension of image
-    # p = min(Z.shape)
-    #
-    # # Greatest power of 2 less than or equal to p
-    # n = 2 ** np.floor(np.log(p) / np.log(2))
-    #
-    # # Extract the exponent
-    # n = int(np.log(n) / np.log(2))
+    # Minimal dimension of image
+    p = min(Z.shape)
+
+    # Greatest power of 2 less than or equal to p
+    n = 2 ** np.floor(np.log(p) / np.log(2))
+
+    # Extract the exponent
+    n = int(np.log(n) / np.log(2))
 
     # Build successive box sizes (from 2**n down to 2**1)
-    sizes = 2 ** np.arange(4, 1, -1)
+    sizes = 2 ** np.arange(n, 1, -1)
 
     # Actual box counting with decreasing size
     counts = []
@@ -51,6 +49,4 @@ def fractal_dimension(Z: np.ndarray):
 if __name__ == '__main__':
     I = plt.imread("town.jpg")
     I = rgb2gray(I)
-    plt.subplot(121)
-    plt.imshow(I, cmap="gray")
     print("Minkowski–Bouligand dimension (computed): ", fractal_dimension(I))

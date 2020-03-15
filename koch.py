@@ -55,13 +55,6 @@ def koch(width, start_pos=(0, 0)):
     return coords
 
 
-def get_real_xy(points):
-    x = [i[0] for i in points]
-    y = [i[1] for i in points]
-
-    return x, y
-
-
 def get_prep_xy(points):
     x = [int(i[0]) for i in points]
     y = [round(i[1] / (0.8660254037844386 * 2)) for i in points]
@@ -91,8 +84,8 @@ def imsave(filename, img):
 if __name__ == '__main__':
     from fractal_demension import fractal_dimension
 
-    n = 7
-    points = koch(n)
+    width = 1000
+    points = koch(width)
     print(points[:10])
 
     x = [int(i[0]) for i in points]
@@ -110,4 +103,4 @@ if __name__ == '__main__':
     img = img.T
     plt.imsave('img.png', img, cmap='gray')
 
-    print(fractal_dimension(img))
+    print(fractal_dimension(img * 255))
